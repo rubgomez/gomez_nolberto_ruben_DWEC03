@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Marcianitos</title>
+
+    <!-- 1ºcargar css -->
+    <link rel="stylesheet" type="text/css" href="../css/css.css">
+
+    <!-- 2ºcargar libreria de jquery 
+     https://releases.jquery.com/-->
+        <!-- a) desde la web -->
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script> -->
+        <!-- b)desde fichero -->
+    <script type="text/javascript" src="../js/jquery_ v371.js"></script>
+
+</head>
+
+<body>
+
+    <main class="contenedor">
+        <header class="juego">
+
+            <nav class="juego">
+            <h1>TIEMPO:</h1>
+            <p id="tiempo_id" class="tiempo_clase">Esperando...</p>
+            </nav>
+
+            <nav class="juego">
+            <h1>VIDAS:</h1>
+            <p id="vidas_id" class="vidas_clase">Esperando...</p>
+            </nav>
+
+            <nav class="juego">
+            <h1>NIVEL:</h1>
+            <p id="nivel_id" class="nivel_clase">Esperando...</p> 
+            </nav>
+
+            <nav class="juego">
+            <h1>PUNTUACIÓN:</h1>
+            <p id="puntuacion_id" class="puntuacion_clase">Esperando...</p>
+            </nav>
+
+        </header>
+
+        <aside>
+            <p id="avisos_id" class="avisos_juego"></p>
+        </aside>
+
+        <section class="juego">
+            <!-- Etiqueta canvas (chatgpt) -->
+            <canvas id="juego_id" class="juego_clase" width="680" height="360"></canvas>
+        </section>
+
+        <footer class="juego">
+            <p>&#169; 2024 rubgomez@birt.eus</p>
+            <p id="avisos_hist_id" class="avisos_hist_clase">Esperando...</p>
+        </footer>
+
+    </main>
+
+        <!-- 3ºcargar nuestro script -->
+        <script type="text/javascript" src="../js/juego.js"></script>
+
+</body>
+</html>
