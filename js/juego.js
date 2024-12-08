@@ -2,9 +2,10 @@
 
 //----------------------------definimos variables ----------------------------------------------------------
 
-    //canvas
-    const canvas = document.getElementById('juego_id')
-    const ctx = canvas.getContext('2d')
+    //canvas (chatgpt)
+    const canvas = document.getElementById('juego_id');
+    const ctx = canvas.getContext('2d');
+    var canvas_juego =$("canvas")
 
     //numéricos
     var filas = 0
@@ -25,11 +26,11 @@
     //puntos
     var puntuacion =$("#puntuacion_id")
     var puntuacion_temp ="0000000000"
-    //nivel
-    
+    //nivel    
     var nivel =$("#nivel_id")
     var nivel_temp=""
     var siguiente_nivel=""
+    var nivel_color=""
     //vidas
     var vidas =$("#vidas_id")
     var vidas_temp="3"
@@ -97,11 +98,12 @@ async function comenzar_juego(){
             enemigo=[]
             enemigos=[]
             borrar_tablero()
+            //resetear el canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             //cargo datos por nivel
             inicializa()
 
-            //mensajes de inicio
+            //mensajes de inicio controlando que no se haya pasado el juego
                 if(nivel_temp !='victoria'){
                 await sleep(2000)
                 pintar_tablero()
@@ -130,7 +132,7 @@ async function comenzar_juego(){
             //bandera para que sólo entre cuando hay cambio de nivel o se inice la partida
             cambio_nivel=false
 
-            //si se cambia de nivel hay que generar a los enemigos
+            //si se cambia de nivel hay que generar a los enemigos e iniciar la partida
             if(i<=100){
             partida=true
             crear_nuevo_enemigo()
@@ -164,20 +166,21 @@ async function comenzar_juego(){
      if (vidas_temp==0){
         aviso_temp="Derrota. ¡¡ PERDISTE TODAS LAS VIDAS!!"    
         avisos_pantalla()
-         //pasado el tiempo volvemos al index   
+       //perdidas las vidas vamos a la pantalla de derrota   
         await sleep(10000)
         window.location.href = "./derrota.html"
     }else if (nivel_temp == "victoria"){
         aviso_temp="Victoria. ¡¡ ELIMINASTE A TODOS LOS ENEMIGOS!!"    
         avisos_pantalla()
+        //superados los 3 niveles victoria
         await sleep(10000)
         window.location.href = "./victoria.html"
     }else {
         aviso_temp="Se acabo el tiempo. ¡¡ PARTIDA FINALIZADA!!"    
         avisos_pantalla()
-        //perdidas las vidas vamos a la pantalla de derrota   
+        //pasado el tiempo volvemos al index   
         await sleep(10000)
-        window.location.href = "../index.html"
+        window.location.href = "../../index.html"
     }
 
 }
@@ -186,9 +189,9 @@ async function inicia_partida(){
 
      aviso_temp=""
      
-        // activo la escucha de teclas presionadas
+        // activo la escucha de teclas presionadas(chatgpt)
         $(document).keydown(function(event) {
-            // Obtiene el código de la tecla presionada
+            // Obtiene el código de la tecla presionada(chatgpt)
             var tecla = event.which || event.keyCode
             color(avisos, "blue")
             
@@ -198,7 +201,7 @@ async function inicia_partida(){
                     aviso_temp="¡tecla de pausa pulsada! Pulse CUALQUIER tecla para continuar..."
                     avisos.text(aviso_temp)
                     avisos_pantalla()
-                    // desactivo la escucha de teclas presionadas
+                    // desactivo la escucha de teclas presionadas(chatgpt)
                     $(document).off('keydown');
                     partida=false
                     reactivar_partida()
@@ -207,11 +210,13 @@ async function inicia_partida(){
 
                 case 32:
                     // desactivo la escucha de teclas presionadas hasta que termine el disparo
-                    $(document).off('keydown');
+                    
                     aviso_temp="¡Disparo Realizado!"
                     avisos.text(aviso_temp)
                     avisos_pantalla()
                     disparar()
+                    // desactivo la escucha de teclas presionadas(chatgpt)
+                    $(document).off('keydown');
                     mover_nave('igual')                    
                 break
 
@@ -242,11 +247,12 @@ async function inicia_partida(){
 async function reactivar_partida() {
 
     $(document).keydown(function(event) {
-
+    
+    // al estar desactivada la escucha no se puede elegir con que tecla reanudar...
     aviso_temp="¡tecla de reanudación pulsada!."
     avisos.text(aviso_temp)
     avisos_pantalla()
-    // desactivo la escucha de teclas presionadas
+    // desactivo la escucha de teclas presionadas(chatgpt)
     $(document).off('keydown');
     partida=true
     
@@ -312,7 +318,6 @@ function color(clase_color, color){
     clase_color.css("color",color)
 }
 
-
 //inicializa en función del nivel
 function inicializa(){
 
@@ -341,6 +346,7 @@ function inicializa(){
         puntos_nivel=1000
         puntos_subir_nivel=10000
         siguiente_nivel="intermedio"
+        nivel_color="green"
         break
 
         case "intermedio":   
@@ -366,6 +372,7 @@ function inicializa(){
         puntos_nivel=2000
         puntos_subir_nivel=40000
         siguiente_nivel="avanzado"
+        nivel_color="lime"
         break
 
         case "avanzado": 
@@ -391,6 +398,7 @@ function inicializa(){
         puntos_nivel=3000
         puntos_subir_nivel=100000
         siguiente_nivel="victoria"
+        nivel_color="olive"
         break
 
     }
@@ -432,7 +440,7 @@ function pintar_nave_fin(){
 
     for (let fila = 0; fila < filas; fila++) {
         for (let col = 0; col < columnas; col++) {
-            //veriifica posición de la nave(chatgpt)
+            //verifica posición de la nave(chatgpt)
             const pos_nave = nave.some(pos => pos.fila === fila && pos.col === col);
 
             if(pos_nave){
@@ -446,7 +454,7 @@ function pintar_nave_fin(){
 }
 
 //pintar_enemigos
-function pintar_enemigos(){
+function pintar_enemigos(nivel_color){
     for (let fila = 0; fila < filas; fila++) {
         for (let col = 0; col < columnas; col++) {
             //veriifica posición de la nave(chatgpt)
@@ -454,24 +462,7 @@ function pintar_enemigos(){
 
             if(pos_nave){
             // Dibujar cada cuadrado(chatgpt)
-            ctx.fillStyle = 'green'; 
-            ctx.fillRect(col * tamañoCuadrado, fila * tamañoCuadrado, tamañoCuadrado, tamañoCuadrado); 
-            }
-        }
-    }
-
-}
-
-//pintar_enemigos fin
-function pintar_enemigosfin(){
-    for (let fila = 0; fila < filas; fila++) {
-        for (let col = 0; col < columnas; col++) {
-            //veriifica posición de la nave(chatgpt)
-            const pos_nave = enemigos.some(pos => pos.fila === fila && pos.col === col);
-
-            if(pos_nave){
-            // Dibujar cada cuadrado(chatgpt)
-            ctx.fillStyle = 'red'; 
+            ctx.fillStyle = nivel_color; 
             ctx.fillRect(col * tamañoCuadrado, fila * tamañoCuadrado, tamañoCuadrado, tamañoCuadrado); 
             }
         }
@@ -577,14 +568,14 @@ function borrar_tablero(){
 async function crear_nuevo_enemigo(){
     while(partida==true){
     inicializar_enemigo(minimo_nivel, maximo_nivel, nivel_temp)
-    pintar_enemigos()
+    pintar_enemigos(nivel_color)
     await sleep(sleep_nivel)
     borrar_enemigos()
     mover_enemigos() 
     if(partida==true){
-        pintar_enemigos()
+        pintar_enemigos(nivel_color)
     }else{
-        pintar_enemigosfin()
+        pintar_enemigos("red")
 
     }
     
@@ -598,16 +589,16 @@ function inicializar_enemigo(min,max, niv){
     let random2=0
     let random3=0
 
-    //saco una posición mediante un randomize
+    //saco una posición mediante un randomize (seguramente haya una forma mejor de hacer esto pero no tengo tiempo para mas...)
     random1=getRandomInt(min,max)
 
     do { random2=getRandomInt(min,max)} 
-    while (random2==random1 || random2==random1-1 || random2==random1+1)
+    while (random2==random1 || random2==random1-1 || random2==random1-2 || random2==random1+2 || random2==random1+1)
 
     do { random3=getRandomInt(min,max)} 
-    while (random3==random1 || random3==random1-1 || random3==random1+1 || random3==random2 || random3==random2-1 || random3==random2+1)
+    while (random3==random1 || random3==random1-1 || random3==random1-2 || random3==random1+1 || random3==random1+2 || random3==random2 || random3==random2-1 || random3==random2-2 || random3==random2+1 || random3==random2+2)
 
-    // Definir posiciones para el enemigo
+    // Definir posiciones para el enemigo según niveles
 
     switch (niv){
 
@@ -798,6 +789,7 @@ async function disparar(){
                     //activamos el cambio de nivel y suspendemos la partida
                     cambio_nivel=true
                     partida=false
+                    // desactivo la escucha de teclas presionadas(chatgpt)
                     $(document).off('keydown');
 
                     aviso_temp = aviso_temp + " obtienes " + puntos_nivel + " PUNTOS!" + " y subes de NIVEL"
@@ -836,7 +828,7 @@ async function disparar(){
 
                     }
 
-                pintar_enemigos()
+                pintar_enemigos(nivel_color)
                 
         // si llegamos al final sin acierto 
         } else if(fila==0){

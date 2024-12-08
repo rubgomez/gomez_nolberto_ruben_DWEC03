@@ -2,7 +2,7 @@
 
 // ------------------------------ 1. VARIABLES GLOBALES ------------------------------
 let usuariosJSON = null;
-let usuariosJSONpath = './data/usuarios.json';
+let usuariosJSONpath = './recursos/data/usuarios.json';
 
 // ------------------------------ 2. CARGA INICIAL DE DATOS (NO TOCAR!) ------------------------------
 // Esto inicializa los eventos del formulario y carga los datos iniciales
@@ -46,10 +46,10 @@ async function cargarJSON(path) {
 function cargardatos_LocalStorage() {
 
     //limpio los datos del LocalStorage
-    localStorage.clear()
+    localStorage.clear();
 
     //para guardar los datos de un JSON al LocalStorage hay que pasarlo a string
-    localStorage.setItem('user', JSON.stringify(usuariosJSON))
+    localStorage.setItem('user', JSON.stringify(usuariosJSON));
    
 }
 //compruebo usuario y contraseña del  LocalStorage
@@ -65,7 +65,7 @@ function login(event) {
     // (?=.*[a-zA-Z]): Asegura que haya al menos una letra (mayúscula o minúscula).
     // (?=.*\d): Asegura que haya al menos un número (cifra).
     // [a-zA-Z0-9]+: Permite cualquier combinación de letras (mayúsculas o minúsculas) y números.
-    let regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/
+    let regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/;
     let comp_regex = regex.test(pw);
 
     //si no cumple saco un aviso y reseteo la contraseña
@@ -79,7 +79,7 @@ function login(event) {
             // const buscausuario = usuariosJSON.find(usuario => usuario.usuario == usu)
 
             //para leer el LocalStorage hay que volverlo a pasar a JSON
-            let datosusuario= JSON.parse(localStorage.getItem('user'))
+            let datosusuario= JSON.parse(localStorage.getItem('user'));
 
             //busco coincidencias en los datos cargados en el LocalStorage
             let buscausuario = datosusuario.find(usuario => usuario.usuario == usu)
@@ -91,7 +91,7 @@ function login(event) {
                     //guardo el nombre y apellido para usarlo después en el programa
                     localStorage.setItem('usuario_nombre', JSON.stringify(buscausuario.nombre))
                     localStorage.setItem('usuario_apellido', JSON.stringify(buscausuario.apellido))
-                    window.location.href = "./web/bienvenida.html"
+                    window.location.href = "./recursos/www/bienvenida.html"
                 }else{
                     document.getElementById('avisos_id').innerText ="Contraseña incorrecta"
                 }
