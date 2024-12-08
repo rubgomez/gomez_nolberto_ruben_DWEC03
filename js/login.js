@@ -50,6 +50,16 @@ function cargardatos_LocalStorage() {
 
     //para guardar los datos de un JSON al LocalStorage hay que pasarlo a string
     localStorage.setItem('user', JSON.stringify(usuariosJSON));
+
+    //para leer el LocalStorage hay que volverlo a pasar a JSON
+    let datosusuario= JSON.parse(localStorage.getItem('user'));
+
+    //compruebo en la consola los datos del localstorage
+    for(let i=0; i<datosusuario.length;i++){
+        let key = localStorage.key(i); // Obtiene la clave
+        let value = localStorage.getItem(key); // Obtiene el valor correspondiente
+        console.log("Usuarios LocalStorage"+key + ': ' + value); // Imprime la clave y el valor
+    }
    
 }
 //compruebo usuario y contraseña del  LocalStorage
@@ -83,12 +93,6 @@ function login(event) {
 
             // busco coincidencias en los datos cargados en el json
             // const buscausuario = usuariosJSON.find(usuario => usuario.usuario == usu)
-
-            //para leer el LocalStorage hay que volverlo a pasar a JSON
-            let datosusuario= JSON.parse(localStorage.getItem('user'));
-
-            //compruebo en la consola los datos del localstorage
-            console.log(datosusuario)
 
             //busco coincidencias en los datos cargados en el LocalStorage
             let buscausuario = datosusuario.find(usuario => usuario.usuario == usu)
