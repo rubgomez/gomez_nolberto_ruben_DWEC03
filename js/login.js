@@ -58,7 +58,13 @@ function login(event) {
 
     //obtengo el nombre y contraseña introducidos en el formulario
     let usu = document.getElementById('usuario').value
-    let pw = document.getElementById('contrasena').value 
+
+    //obtengo los 2 campos de contraseña (el de tipo contraseña y el oculto)
+    let pw = document.getElementById('contrasena')
+    let pw_oculta = document.getElementById('real')
+
+    //asigno el valor del de tipo contraseña al oculto
+    pw_oculta.value = pw.value
 
     //valido la contraseña con RegEx (caracteres alfanuméricos (números y letras)
     // ^ y $: Aseguran que la cadena comience y termine con el patrón.
@@ -66,11 +72,11 @@ function login(event) {
     // (?=.*\d): Asegura que haya al menos un número (cifra).
     // [a-zA-Z0-9]+: Permite cualquier combinación de letras (mayúsculas o minúsculas) y números.
     let regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/;
-    let comp_regex = regex.test(pw);
+    let comp_regex = regex.test(pw_oculta.value);
 
     //si no cumple saco un aviso y reseteo la contraseña
     if(comp_regex==false){
-        console.log(comp_regex)
+
         document.getElementById('avisos_id').innerText ="La contraseña debe cumplir con un formato de caracteres alfanuméricos (números y letras)"
         document.getElementById('contrasena').value =""
     }else{
@@ -81,13 +87,16 @@ function login(event) {
             //para leer el LocalStorage hay que volverlo a pasar a JSON
             let datosusuario= JSON.parse(localStorage.getItem('user'));
 
+            //compruebo en la consola los datos del localstorage
+            console.log(datosusuario)
+
             //busco coincidencias en los datos cargados en el LocalStorage
             let buscausuario = datosusuario.find(usuario => usuario.usuario == usu)
 
             //si el usuario existe compruebo la contraseña
             if(buscausuario){
                 
-                if(pw==buscausuario.contraseña){
+                if(pw_oculta.value==buscausuario.contraseña){
                     //guardo el nombre y apellido para usarlo después en el programa
                     localStorage.setItem('usuario_nombre', JSON.stringify(buscausuario.nombre))
                     localStorage.setItem('usuario_apellido', JSON.stringify(buscausuario.apellido))
@@ -104,5 +113,7 @@ function login(event) {
 
 
 }
+
+
 
 
