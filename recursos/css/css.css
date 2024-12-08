@@ -71,6 +71,16 @@ section.base{
 
 }
 
+section.vict{
+    background-color: rgb(176, 204, 247);
+
+}
+
+section.derr{
+    background-color: rgb(225, 160, 160);
+
+}
+
 .juego_clase{
 
     border: solid 1px;
