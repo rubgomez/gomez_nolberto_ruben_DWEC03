@@ -49,7 +49,7 @@ bsalir.addEventListener("click", function(){
     clickado="salir"
     bsalir.style.background="white"
     bnueva.style.background="rgb(187, 187, 187)"
-    window.location.href = "../../../index.html"
+    window.location.href = "../../index.html"
 })
 
 //Estadísticas----------------------------------------------------
